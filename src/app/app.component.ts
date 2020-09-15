@@ -9,52 +9,49 @@ interface Acron {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'acronyms';
 
   acronyms: Acron[] = [
-    {name: "LPG", description: "Lollipop Guild"},
-    {name: "SATCOM", description: "Satellite Communications"},
-    {name: "PTES", description: "Protected Tactical Enterprise Service"},
-    {name: "PTW", description: "Protected Tactical Waveform"},
-    {name: "PTAS", description: "Protected Tactical Anti-jam Satellite Communication"},
-  ]
-  displayedColumns: string[] = [
-    "name", "description"
+    { name: 'LPG', description: 'Lollipop Guild' },
+    { name: 'SATCOM', description: 'Satellite Communications' },
+    { name: 'PTES', description: 'Protected Tactical Enterprise Service' },
+    { name: 'PTW', description: 'Protected Tactical Waveform' },
+    {
+      name: 'PTAS',
+      description: 'Protected Tactical Anti-jam Satellite Communication',
+    },
   ];
-
+  displayedColumns: string[] = ['name', 'description'];
 
   dataSource = new MatTableDataSource(this.acronyms);
-  showNew: boolean = false;
+  showNew = false;
 
+  model: Acron = {
+    name: 'ALEX',
+    description: 'Allied Lions Elegant Xylophones',
+  };
 
-
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     console.log(filterValue.trim());
     this.dataSource.filter = filterValue.trim();
   }
 
-  model: Acron = {name: "ALEX", description: "Allied Lions Elegant Xylophones"};
-
-  save() {
-    
+  save(): void {
     if (this.showNew) {
-
-      const m = {...this.model};
+      const m = { ...this.model };
       this.acronyms = [...this.acronyms, m];
       this.dataSource.data = this.acronyms;
     }
-    
-    this.showNew = !this.showNew;
 
+    this.showNew = !this.showNew;
   }
 
-  update(row: Acron) {
+  update(row: Acron): void {
     this.model = row;
     this.showNew = true;
   }
-
 }
