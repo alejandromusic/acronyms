@@ -6,8 +6,10 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 
 const modules = [
@@ -16,8 +18,10 @@ const modules = [
     BrowserAnimationsModule,
     FormsModule,
     MatButtonModule,
+    MatRadioModule,
     MatFormFieldModule,
     MatInputModule,
+    MatPaginatorModule,
     MatTableModule,
   ];
 

@@ -27,10 +27,31 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('acronyms');
   });
 
-  it('should render title', () => {
+});
+
+describe('branch coverage', () => {
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [AppComponent],
+    }).compileComponents();
+  });
+
+  it('should have two rows after searching PTES', ()=> {
+
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('mat-label').textContent).toContain('Filter');
+
+    const component = compiled.querySelector('input');
+    const spy1 = spyOn(component, 'applyFilter');
+    component.value = 'PTES';
+    const eventMock = {code: 'Escape'};
+    component.keyEvent(eventMock);
+
+    expect(spy1).toHaveBeenCalledWith(eventMock);
+    expect(compiled.querySelector('table').rows.length).toEqual(2);
   });
+
 });

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 interface Acron {
   name: string;
@@ -11,7 +12,9 @@ interface Acron {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   title = 'acronyms';
 
   acronyms: Acron[] = [
@@ -20,11 +23,13 @@ export class AppComponent {
     { name: 'PTES', description: 'Protected Tactical Enterprise Service' },
     { name: 'PTW', description: 'Protected Tactical Waveform' },
     {
-      name: 'PTAS',
-      description: 'Protected Tactical Anti-jam Satellite Communication',
+      name: 'PATS',
+      description: 'Protected Anti-jam Tactical Satellite Communication',
     },
   ];
   displayedColumns: string[] = ['name', 'description'];
+  radioModel = 'initials';
+  query = '';
 
   dataSource = new MatTableDataSource(this.acronyms);
   showNew = false;
@@ -34,9 +39,23 @@ export class AppComponent {
     description: 'Allied Lions Elegant Xylophones',
   };
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue.trim());
+  ngOnInit(): void { this.changeFilter(); }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  changeFilter(): void {
+    this.dataSource.filterPredicate = (data: Acron, filter: string) => {
+      return this.radioModel === 'initials'
+        ? data.name.toLowerCase().includes(filter)
+        : data.name.toLowerCase().includes(filter) ||
+            data.description.toLowerCase().includes(filter);
+    };
+  }
+
+  applyFilter(): void {
+    const filterValue = this.query.trim();
+    console.log(filterValue);
     this.dataSource.filter = filterValue.trim();
   }
 
